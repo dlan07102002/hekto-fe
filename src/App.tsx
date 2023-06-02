@@ -1,10 +1,15 @@
 import styled from "styled-components";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import { Routes, Route, Link, useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import fakeApi, { IProduct } from "./fakeApi.ts";
+import routes from "./routes/index.ts";
 interface IFormValues {
     email: string;
     password: string;
 }
+
 function App() {
     const initialValues: IFormValues = {
         email: "",
@@ -43,8 +48,18 @@ function App() {
         },
         validationSchema: formSchema,
     });
+
     return (
         <Wrapper>
+            <Routes>
+                {routes.map((route) => (
+                    <Route
+                        key={route.path}
+                        path={route.path}
+                        element={<route.element />}
+                    />
+                ))}
+            </Routes>
             <Form className="form-container" action="" onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label htmlFor="email">Email:</label>
@@ -90,32 +105,53 @@ function App() {
     );
 }
 const Wrapper = styled.div`
+    margin: 80px 0;
     font-size: 1.8rem;
-    color: black;
-    .form-container {
-        margin-top: 50vh;
-        background-color: #ccc;
-        width: 500px;
-        height: 500px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        margin: auto;
-    }
+    color: #fff;
+    height: calc(100vh - 160px);
+    display: flex;
+    background-color: #7e33e0;
 `;
 const Form = styled.form`
+    font-weight: bold;
+    width: 400px;
+    height: 400px;
     display: flex;
-    margin-left: 25%;
+    flex-direction: column;
+    justify-content: center;
+    margin: auto;
+    display: flex;
+    background-color: #e0d3f5;
+    .form-group {
+        input {
+            display: block;
+            width: calc(100% - 64px);
+            background-color: transparent;
+            border: none;
+            border-bottom: 1px solid #fff;
+            padding: 0;
+        }
+        width: 100%;
+        margin: 0 auto;
+        margin-left: 32px;
+        margin-bottom: 54px;
+    }
 `;
 const ErrorMessage = styled.p`
   position: absolute,
   color: red
 `;
 const SubmitButton = styled.button`
+    display: block;
+    width: calc(100% - 64px);
+    padding: 4px 0;
+    color: #fff;
+    font-weight: bold;
     &:disabled {
         opacity: 0.5;
         cursor: pointer;
         font-size: 2rem;
     }
 `;
+
 export default App;
