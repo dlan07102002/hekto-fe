@@ -1,10 +1,8 @@
 import styled from "styled-components";
-import { useFormik } from "formik";
 import * as yup from "yup";
-import { Routes, Route, Link, useParams } from "react-router-dom";
-import { useState, useEffect } from "react";
-import fakeApi, { IProduct } from "./fakeApi.ts";
-import routes from "./routes/index.ts";
+import { useFormik } from "formik";
+import { Routes, Route } from "react-router-dom";
+import routes from "./routes";
 interface IFormValues {
     email: string;
     password: string;
@@ -16,51 +14,57 @@ function App() {
         password: "",
     };
 
-    const formSchema = yup.object().shape({
-        email: yup
-            .string()
-            .required("Trường này là bắt buộc")
-            .email("Vui lòng nhập email"),
-        password: yup
-            .string()
-            .required("Trường này là bắt buộc")
-            .min(4, "Tối thiểu 4 kí tự"),
-    });
-    const {
-        values,
-        errors,
-        handleChange,
-        handleSubmit,
-        touched,
-        handleBlur,
-        isSubmitting,
-    } = useFormik({
-        initialValues,
-        onSubmit: async (values, { setSubmitting }) => {
-            await new Promise((resolve) => {
-                console.log(1);
-                setTimeout(() => {
-                    resolve({});
-                }, 2000);
-            });
-            console.log(values);
-            setSubmitting(false);
-        },
-        validationSchema: formSchema,
-    });
+    // const formSchema = yup.object().shape({
+    //     email: yup
+    //         .string()
+    //         .required("Trường này là bắt buộc")
+    //         .email("Vui lòng nhập email"),
+    //     password: yup
+    //         .string()
+    //         .required("Trường này là bắt buộc")
+    //         .min(4, "Tối thiểu 4 kí tự"),
+    // });
+    // const {
+    //     values,
+    //     errors,
+    //     handleChange,
+    //     handleSubmit,
+    //     touched,
+    //     handleBlur,
+    //     isSubmitting,
+    // } = useFormik({
+    //     initialValues,
+    //     onSubmit: async (values, { setSubmitting }) => {
+    //         await new Promise((resolve) => {
+    //             console.log(1);
+    //             setTimeout(() => {
+    //                 resolve({});
+    //             }, 2000);
+    //         });
+    //         console.log(values);
+    //         setSubmitting(false);
+    //     },
+    //     validationSchema: formSchema,
+    // });
 
     return (
         <Wrapper>
             <Routes>
-                {routes.map((route) => (
-                    <Route
-                        key={route.path}
-                        path={route.path}
-                        element={<route.element />}
-                    />
-                ))}
+                {routes.map(
+                    ({ path, element: Element, layout: Layout }, index) => (
+                        <Route
+                            key={index}
+                            path={path}
+                            element={
+                                <Layout>
+                                    <Element />
+                                </Layout>
+                            }
+                        />
+                    )
+                )}
             </Routes>
-            <Form className="form-container" action="" onSubmit={handleSubmit}>
+            {/* <Form className="form-container" action="" onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label htmlFor="email">Email:</label>
                     <input
@@ -100,17 +104,16 @@ function App() {
                         Submit
                     </SubmitButton>
                 </div>
-            </Form>
+            </Form> */}
         </Wrapper>
     );
 }
 const Wrapper = styled.div`
-    margin: 80px 0;
     font-size: 1.8rem;
     color: #fff;
     height: calc(100vh - 160px);
     display: flex;
-    background-color: #7e33e0;
+    background-color: #fff;
 `;
 const Form = styled.form`
     font-weight: bold;
