@@ -10,24 +10,12 @@ import AboutUs from "../pages/AboutUs";
 import NotFound from "../pages/NotFound";
 import DefaultLayout from "../layouts/DefaultLayout";
 import { PropsWithChildren } from "react";
+import path from "./path";
 interface IRoute {
     path: string;
     element: React.FC;
     layout: React.FC<PropsWithChildren>;
 }
-
-const path = {
-    home: "/",
-    login: "/login",
-    register: "/register",
-    searchResult: "/search",
-    productDetail: "/product/:id",
-    cart: "/cart",
-    payment: "/payment",
-    orderCompleted: "/order-completed",
-    aboutUs: "/about-us",
-    notFound: "*",
-};
 
 const routes: IRoute[] = [
     {

@@ -6,6 +6,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styled from "styled-components";
 import Input from "../Input";
+import Button from "../Button";
 
 function Footer() {
     return (
@@ -13,10 +14,14 @@ function Footer() {
             <div className="feature">
                 <div className="info">
                     <h2 className="logo">Hekto</h2>
-                    <div className="sign-up">
-                        <Input label="" placeholder="Enter Email Address" />
-                        <button>Sign Up</button>
-                    </div>
+                    <Form className="sign-up">
+                        <FormGroup>
+                            <Input label="" placeholder="Enter Email Address" />
+                        </FormGroup>
+                        <FormGroup>
+                            <Button>Sign Up</Button>
+                        </FormGroup>
+                    </Form>
                     <p>Contact Info</p>
                     <p>17 Princess Road London, Greater London NW1 8JR, UK</p>
                 </div>
@@ -103,15 +108,7 @@ const Wrapper = styled.div`
             border-bottom-left-radius: 3px;
             width: calc(377px - var(--width-button));
         }
-        button {
-            height: var(--input-height);
-            width: var(--width-button);
-            background-color: #fb2e86;
-            color: #fff;
-            border: none;
-            border-top-right-radius: 3px;
-            border-bottom-right-radius: 3px;
-        }
+
         .sign-up {
             display: inline-flex;
             input {
@@ -139,6 +136,18 @@ const Wrapper = styled.div`
     .social-branch {
         margin: auto;
         color: #151875;
+    }
+`;
+const Form = styled.form``;
+const FormGroup = styled.div`
+    button {
+        height: var(--input-height);
+        width: 135px;
+        background-color: #fb2e86;
+        color: #fff;
+        border: none;
+        border-top-right-radius: 3px;
+        border-bottom-right-radius: 3px;
     }
 `;
 export default Footer;

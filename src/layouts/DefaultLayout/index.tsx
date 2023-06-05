@@ -1,6 +1,9 @@
-import Header from "../../component/Header";
-import Footer from "../../component/Footer";
 import styled from "styled-components";
+
+import Header from "../../component/Header";
+
+import Footer from "../../component/Footer";
+
 interface IProps extends React.PropsWithChildren {}
 
 const DefaultLayout: React.FC<IProps> = ({ children }) => {
@@ -14,14 +17,14 @@ const DefaultLayout: React.FC<IProps> = ({ children }) => {
 };
 const Main = styled.div`
     flex: 1;
+    padding-top: 120px;
 `;
+
 const Wrapper = styled.div`
-    @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans&family=Josefin+Sans:wght@700&display=swap");
-    font-family: "IBM Plex Sans", sans-serif;
-    font-family: "Josefin Sans", sans-serif;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
     width: 100%;
 `;
+
 export default DefaultLayout;
