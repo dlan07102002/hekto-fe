@@ -1,11 +1,17 @@
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { useFormik } from "formik";
+import { toast } from "react-toastify";
+
 import Input from "../../component/Input";
 import BranchImage from "../../component/BranchIcon";
-import { Link, useNavigate } from "react-router-dom";
 import { RegisterSchema } from "../../validation";
-import { useFormik } from "formik";
 import path from "../../routes/path";
 import Button from "../../component/Button";
+import storage from "../../helpers/storage";
+import STORAGE_KEY from "../../constants";
+
+import authApi from "../../api/auth";
 interface IFormValues {
     firstName: string;
     lastName: string;
@@ -15,13 +21,13 @@ interface IFormValues {
 }
 function Register() {
     const navigate = useNavigate();
-    // const initialValues: IFormValues = {
-    //     firstName: "",
-    //     lastName: "",
-    //     email: "",
-    //     password: "",
-    //     confirmPassword: "",
-    // };
+    const initialValues: IFormValues = {
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+    };
     const {
         values,
         errors,
@@ -31,28 +37,21 @@ function Register() {
         handleBlur,
         isSubmitting,
     } = useFormik({
-        initialValues: {
-            firstName: "",
-            lastName: "",
-            email: "",
-            password: "",
-            confirmPassword: "",
-        },
+        initialValues,
         onSubmit: async (values, { setSubmitting }) => {
-            console.log(values);
-            await new Promise((resolve) => {
-                console.log(1);
-                setTimeout(() => {
-                    resolve({});
-                }, 2000);
-            });
-            console.log(values);
-            setSubmitting(false);
-            navigate(path.home);
+            try {
+                const { confirmPassword, ...body } = values;
+                const res = await authApi.register(body);
+                storage.set(STORAGE_KEY.ACCESS_KEY, res.data.accessToken);
+                storage.set(STORAGE_KEY.REFRESH_KEY, res.data.refreshToken);
+
+                navigate(path.home, { replace: true });
+            } catch (err) {
+                toast.error("Have an error");
+            }
         },
         validationSchema: RegisterSchema,
     });
-    console.log(values);
     return (
         <Wrapper>
             <Container>
@@ -90,6 +89,7 @@ function Register() {
                             label="Email Address"
                             value={values.email}
                             id="email"
+                            name="email"
                             onChange={handleChange}
                             onBlur={handleBlur}
                             error={errors.email}
@@ -102,6 +102,7 @@ function Register() {
                             value={values.password}
                             id="password"
                             type="password"
+                            name="password"
                             onChange={handleChange}
                             onBlur={handleBlur}
                             error={errors.password}
@@ -182,13 +183,12 @@ const Container = styled.div`
 `;
 const Form = styled.form`
     text-align: center;
-    h2 {
+    .title {
         padding-top: 50px;
         color: black;
         font-size: 3.2rem;
         margin-top: 50px;
     }
-
     .login-option {
         p {
             color: #9096b2;
@@ -208,11 +208,14 @@ const Form = styled.form`
 `;
 const FormGroup = styled.div`
     --input-width: 432px;
-    margin-top: 14px;
+    margin-top: 23px;
     p {
         text-align: left;
         margin-top: 13px;
         margin-left: calc((var(--form-width) - var(--input-width) - 5px) / 2);
+    }
+    &:first-child {
+        margin-top: 14px;
     }
     Button {
         width: var(--input-width);

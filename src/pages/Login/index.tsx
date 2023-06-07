@@ -1,11 +1,18 @@
 import styled from "styled-components";
+import { toast } from "react-toastify";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useEffect } from "react";
+import { useFormik } from "formik";
+
 import Input from "../../component/Input";
 import BranchImage from "../../component/BranchIcon";
-import { Link, useNavigate } from "react-router-dom";
-import { useFormik } from "formik";
 import { LoginSchema } from "../../validation";
 import path from "../../routes/path";
 import Button from "../../component/Button";
+import authApi from "../../api/auth";
+import storage from "../../helpers/storage";
+import STORAGE_KEY from "../../constants";
+
 interface IFormValues {
     email: string;
     password: string;
@@ -13,22 +20,35 @@ interface IFormValues {
 
 function Login() {
     const navigate = useNavigate();
+    const location = useLocation();
+    const params = new URLSearchParams(location.search);
+    const redirectPath = params.get("continue_url") || path.home;
     const initialValues: IFormValues = {
         email: "",
         password: "",
     };
     // Form-group thành 1 phần (input label error-mess)
-
     const { values, errors, handleChange, handleSubmit, touched, handleBlur } =
         useFormik({
             initialValues,
-            onSubmit: (values) => {
-                console.log(values);
-                navigate(path.home);
+            onSubmit: async (values) => {
+                try {
+                    const res = await authApi.login(values);
+                    storage.set(STORAGE_KEY.ACCESS_KEY, res.data.accessToken);
+                    storage.set(STORAGE_KEY.REFRESH_KEY, res.data.refreshToken);
+                    navigate(redirectPath, { replace: true });
+                } catch (err) {
+                    toast.error("Have an error");
+                }
             },
             validationSchema: LoginSchema,
         });
-
+    useEffect(() => {
+        const accessToken = storage.get(STORAGE_KEY.ACCESS_KEY);
+        if (accessToken) {
+            navigate(redirectPath, { replace: true });
+        }
+    }, [redirectPath, navigate]);
     return (
         <Wrapper>
             <Container>
@@ -40,9 +60,9 @@ function Login() {
                     <FormGroup>
                         <Input
                             value={values.email}
-                            label=""
                             id="email"
-                            placeholder="Email Address"
+                            name="email"
+                            label="Email Address"
                             onChange={handleChange}
                             onBlur={handleBlur}
                             error={errors.email}
@@ -52,9 +72,10 @@ function Login() {
                     <FormGroup>
                         <Input
                             value={values.password}
-                            label=""
                             id="password"
-                            placeholder="Password"
+                            type="password"
+                            name="password"
+                            label="Password"
                             onChange={handleChange}
                             onBlur={handleBlur}
                             error={errors.password}
@@ -125,15 +146,17 @@ const Form = styled.form``;
 
 const FormGroup = styled.div`
     --input-width: 432px;
-    margin-top: 14px;
-
+    &:first-child {
+        margin-top: 14px;
+    }
+    margin-top: 23px;
     .sub-title {
         text-align: left;
         margin-top: 13px;
         margin-left: calc((var(--form-width) - var(--input-width)) / 2);
     }
 
-    button {
+    Button {
         width: var(--input-width);
         font-size: 1.7rem;
         color: #fff;

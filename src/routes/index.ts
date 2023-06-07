@@ -15,6 +15,7 @@ interface IRoute {
     path: string;
     element: React.FC;
     layout: React.FC<PropsWithChildren>;
+    isPrivate?: boolean;
 }
 
 const routes: IRoute[] = [
@@ -22,6 +23,7 @@ const routes: IRoute[] = [
         path: path.home,
         element: Home,
         layout: DefaultLayout,
+        isPrivate: true,
     },
     {
         path: path.login,
@@ -37,6 +39,7 @@ const routes: IRoute[] = [
         path: path.cart,
         element: Cart,
         layout: DefaultLayout,
+        isPrivate: true,
     },
     {
         path: path.productDetail,

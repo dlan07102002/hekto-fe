@@ -7,24 +7,27 @@ interface IProps extends React.InputHTMLAttributes<HTMLInputElement> {
 const Input: React.FC<IProps> = ({ label, error, touched, ...inputProps }) => {
     return (
         <Wrapper>
-            <input className="input" {...inputProps} placeholder={label} />
+            <input {...inputProps} placeholder={label} />
             {touched && !!error && <ErrorMessage>{error}</ErrorMessage>}
         </Wrapper>
     );
 };
 
 const Wrapper = styled.div`
+    height: 52px;
     position: relative;
-    Input {
+    input {
         box-sizing: border-box;
         border: 1px solid #c2c5e1;
         border-radius: 2px;
         padding-left: 16px;
-        margin-top: 23px;
         width: var(--input-width);
-        height: 52px;
+        height: 100%;
         color: #9096b2;
         outline: none;
+    }
+    &:has(error) {
+        outline: #ff0000 solid 2px;
     }
 `;
 const ErrorMessage = styled.div`
@@ -33,7 +36,7 @@ const ErrorMessage = styled.div`
     color: rgb(144, 150, 178);
     position: absolute;
     font-size: 1.4rem;
-    bottom: -20%;
+    bottom: -30%;
     left: 55px;
     color: red;
     z-index: 0;

@@ -35,7 +35,11 @@ const Navbar = () => {
                 </div>
                 <Form>
                     <FormGroup>
-                        <Input label="" placeholder="Search..." />
+                        <Input
+                            className="input-search"
+                            label=""
+                            placeholder="Search..."
+                        />
                     </FormGroup>
                     <FormGroup>
                         <button className="nav-search-btn">
@@ -90,20 +94,21 @@ const Form = styled.form`
     height: 40px;
 `;
 const FormGroup = styled.div`
+    height: 40px;
     .nav-search-btn {
         width: 45px;
         margin-top: 0;
-        height: 40px;
         background-color: #fb2e86;
         border: none;
+        height: inherit;
         color: #fff;
         font-size: 2rem;
     }
-    input {
-        margin: inherit;
-        height: 40px;
+    Input {
+        height: 40px !important;
         width: 266px;
         border: 2px solid #e7e6ef;
+        padding: none;
     }
 `;
 export default Navbar;
