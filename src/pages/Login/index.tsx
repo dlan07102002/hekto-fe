@@ -27,6 +27,12 @@ function Login() {
         email: "",
         password: "",
     };
+    useEffect(() => {
+        const accessToken = storage.get(STORAGE_KEY.ACCESS_KEY);
+        if (accessToken) {
+            navigate(redirectPath, { replace: true });
+        }
+    }, [redirectPath, navigate]);
     // Form-group thành 1 phần (input label error-mess)
     const { values, errors, handleChange, handleSubmit, touched, handleBlur } =
         useFormik({
@@ -43,12 +49,7 @@ function Login() {
             },
             validationSchema: LoginSchema,
         });
-    useEffect(() => {
-        const accessToken = storage.get(STORAGE_KEY.ACCESS_KEY);
-        if (accessToken) {
-            navigate(redirectPath, { replace: true });
-        }
-    }, [redirectPath, navigate]);
+
     return (
         <Wrapper>
             <Container>
@@ -168,8 +169,6 @@ const FormGroup = styled.div`
         margin-bottom: 20px;
     }
 `;
-const ErrorMessage = styled.div`
-    color: red;
-`;
+
 export default Login;
 //coding conventions

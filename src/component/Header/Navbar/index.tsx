@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Input from "../../Input";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Button from "../../Button";
 
 const Navbar = () => {
     return (
@@ -42,9 +43,9 @@ const Navbar = () => {
                         />
                     </FormGroup>
                     <FormGroup>
-                        <button className="nav-search-btn">
+                        <Button className="nav-search-btn">
                             <FontAwesomeIcon icon={faSearch}></FontAwesomeIcon>
-                        </button>
+                        </Button>
                     </FormGroup>
                 </Form>
             </Container>
@@ -96,12 +97,8 @@ const Form = styled.form`
 const FormGroup = styled.div`
     height: 40px;
     .nav-search-btn {
+        height: 40px;
         width: 45px;
-        margin-top: 0;
-        background-color: #fb2e86;
-        border: none;
-        height: inherit;
-        color: #fff;
         font-size: 2rem;
     }
     Input {

@@ -97,7 +97,7 @@ const Wrapper = styled.div`
         }
     }
     .info {
-        --input-height: 55px;
+        --input-height: 40px;
         --width-button: 135px;
 
         Input {
@@ -143,9 +143,6 @@ const FormGroup = styled.div`
     button {
         height: var(--input-height);
         width: 135px;
-        background-color: #fb2e86;
-        color: #fff;
-        border: none;
         border-top-right-radius: 3px;
         border-bottom-right-radius: 3px;
     }

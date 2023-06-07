@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans&family=Josefin+Sans:wght@700&display=swap");
 html {
     font-size: 62.5%;
+    box-sizing: border-box;
     font-family: "IBM Plex Sans", sans-serif;
     font-family: "Josefin Sans", sans-serif;
 }

@@ -9,7 +9,11 @@ const Button: React.FC<IProps> = ({ children, ...buttonProps }) => {
 };
 const Wrapper = styled.div`
     button {
+        outline: none;
+        border: none;
         cursor: pointer;
+        background-color: #fb2e86;
+        color: #fff;
     }
     &:hover {
         opacity: 0.8;
