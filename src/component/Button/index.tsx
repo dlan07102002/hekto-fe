@@ -14,9 +14,9 @@ const Wrapper = styled.div`
         cursor: pointer;
         background-color: #fb2e86;
         color: #fff;
-    }
-    &:hover {
-        opacity: 0.8;
+        &:hover {
+            opacity: 0.8;
+        }
     }
 `;
 export default Button;

@@ -8,18 +8,22 @@ const FeaturedProduct = () => {
                 <Product
                     src="/src/component/assets/images/img1.png"
                     alt="product"
+                    className="product-custom"
                 />
                 <Product
                     src="/src/component/assets/images/img2.png"
                     alt="product"
+                    className="product-custom"
                 />
                 <Product
                     src="/src/component/assets/images/img3.png"
                     alt="product"
+                    className="product-custom"
                 />
                 <Product
                     src="/src/component/assets/images/img4.png"
                     alt="product"
+                    className="product-custom"
                 />
             </div>
         </Wrapper>
@@ -39,6 +43,11 @@ const Wrapper = styled.div`
         width: 1135px;
         display: flex;
         justify-content: space-between;
+        flex-wrap: wrap;
+        flex: 1;
+    }
+    .product-custom {
+        width: calc(25% - 14px);
     }
 `;
 export default FeaturedProduct;

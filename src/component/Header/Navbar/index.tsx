@@ -87,6 +87,9 @@ const Container = styled.div`
 
     .nav-item a {
         text-decoration: none;
+        &:hover {
+            color: #fb2e86;
+        }
     }
 `;
 

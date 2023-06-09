@@ -8,6 +8,7 @@ const Slider1 = ({ ...props }) => {
                 <img
                     className="lamp"
                     src="/src/component/assets/images/lamp.png"
+                    alt="decorate"
                     style={{ display: lampDisplay }}
                 />
                 <div className="description">
@@ -20,7 +21,7 @@ const Slider1 = ({ ...props }) => {
                     <Button>Shop Now</Button>
                 </div>
 
-                <img className="product" src={props.src} />
+                <img className="product" src={props.src} alt="product" />
             </Decoration>
         </Wrapper>
     );

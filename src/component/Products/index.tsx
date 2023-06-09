@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const Product = ({ ...props }) => {
     return (
-        <Wrapper>
+        <Wrapper className={props.className}>
             <ProductImage>
                 <img crossOrigin="anonymous" src={props.src} alt={props.alt} />
             </ProductImage>
@@ -20,17 +20,21 @@ const Product = ({ ...props }) => {
 };
 const Wrapper = styled.div`
     box-shadow: rgba(0, 0, 0, 0.2) 2px 4px 10px 0px;
-    width: 270px;
     height: 361px;
+    margin: 0 7px;
 `;
 const ProductImage = styled.div`
     margin: 0 auto;
     height: 236px;
     background-color: #f6f7fb;
-
+    box-sizing: border-box;
+    position: relative;
     img {
-        margin: auto;
-        display: block;
+        position: absolute;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
     }
 `;
 const ProductDetail = styled.div`

@@ -8,15 +8,15 @@ const Slider = () => {
         <Wrapper>
             <Carousel
                 additionalTransfrom={0}
-                arrows
+                arrows={false}
                 autoPlaySpeed={3000}
                 centerMode={false}
-                className=""
-                containerClass="container"
+                className="customize-carousel"
+                containerClass="container-padding-bottom"
                 dotListClass=""
                 draggable
-                focusOnSelect={false}
-                infinite={false}
+                focusOnSelect
+                infinite
                 itemClass=""
                 keyBoardControl
                 minimumTouchDrag={80}
@@ -54,7 +54,7 @@ const Slider = () => {
                 rewindWithAnimation={false}
                 rtl={false}
                 shouldResetAutoplay
-                showDots={false}
+                showDots
                 sliderClass=""
                 slidesToSlide={1}
                 swipeable
@@ -69,5 +69,19 @@ const Slider = () => {
         </Wrapper>
     );
 };
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+    .react-multi-carousel-dot button {
+        border: 1px solid #fb2e86;
+        background-color: transparent;
+        border-radius: 0;
+        width: 8px;
+        height: 8px;
+        box-sizing: border-box;
+        transform: rotate(-45deg);
+        margin: 0 6px 30px 6px;
+    }
+    .react-multi-carousel-dot--active button {
+        background-color: #fb2e86;
+    }
+`;
 export default Slider;

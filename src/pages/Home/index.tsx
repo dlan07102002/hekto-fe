@@ -4,6 +4,7 @@ import authApi from "../../api/auth";
 import Slider from "./Slider";
 import FeaturedProduct from "./FeaturedProducts";
 import styled from "styled-components";
+import LatestProducts from "./LatestProducts";
 function Home() {
     useEffect(() => {
         authApi.getCurrentUser().then(console.log);
@@ -12,6 +13,7 @@ function Home() {
         <Wrapper>
             <Slider />
             <FeaturedProduct />
+            <LatestProducts />
         </Wrapper>
     );
 }
