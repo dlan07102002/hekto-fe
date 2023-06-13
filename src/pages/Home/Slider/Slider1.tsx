@@ -7,7 +7,7 @@ const Slider1 = ({ ...props }) => {
             <Decoration>
                 <img
                     className="lamp"
-                    src="/src/component/assets/images/lamp.png"
+                    src="/src/component/assets/images/slider/lamp.png"
                     alt="decorate"
                     style={{ display: lampDisplay }}
                 />

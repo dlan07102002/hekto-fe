@@ -1,11 +1,77 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+
 import Input from "../../Input";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button from "../../Button";
+import path from "../../../routes/path";
+import { IProduct } from "../../../interfaces";
+import productApi from "../../../api/product";
+import useDebouncedEffect from "../../../hooks/useDebounceEffect";
 
 const Navbar = () => {
+    const [isShowSearchResults, setIsShowSearchResults] =
+        useState<boolean>(true);
+    const [keyword, setKeyword] = useState<string>("");
+    const [isFocus, setIsFocus] = useState<boolean>(false);
+    const [products, setProducts] = useState<IProduct[]>([]);
+    const [isSearching, setIsSearching] = useState<boolean>(false);
+    // Hiện search result khi:
+    // - focus && có keyword
+    // Ẩn search result khi:
+    // - blur
+
+    const handleChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setKeyword(event.target.value.trim());
+    };
+    const handleFocus = () => {
+        setIsFocus(true);
+    };
+    const handleBlur = () => {
+        setIsFocus(false);
+    };
+
+    useEffect(() => {
+        if (isFocus && keyword) {
+            setIsShowSearchResults(true);
+        } else if (!isFocus) {
+            setIsShowSearchResults(false);
+        }
+    }, [isFocus, keyword]);
+    useEffect(() => {
+        if (keyword) {
+            setIsSearching(true);
+        } else {
+            setProducts([]);
+            setIsShowSearchResults(false);
+            setIsSearching(false);
+        }
+        setIsSearching(!!keyword);
+    }, [keyword]);
+    useDebouncedEffect(
+        () => {
+            if (keyword) {
+                setIsSearching(true);
+                productApi
+                    .search({
+                        limit: 3,
+                        page: 1,
+                        order: "createdAt:desc,id:desc",
+                        search: keyword,
+                    })
+                    .then((res) => {
+                        setProducts(res.data);
+                    })
+                    .finally(() => {
+                        setIsSearching(false);
+                    });
+            }
+        },
+        [keyword],
+        800
+    );
     return (
         <Wrapper>
             <Container>
@@ -15,7 +81,7 @@ const Navbar = () => {
                 <div>
                     <ul className="nav-list">
                         <li className="nav-item">
-                            <Link to="/home">Home</Link>
+                            <Link to={path.home}>Home</Link>
                         </li>
                         <li className="nav-item">
                             <Link to="/pages">Pages</Link>
@@ -37,9 +103,12 @@ const Navbar = () => {
                 <Form>
                     <FormGroup>
                         <Input
+                            value={keyword}
+                            onFocus={handleFocus}
+                            onBlur={handleBlur}
+                            onChange={handleChangeInput}
                             className="input-search"
-                            label=""
-                            placeholder="Search..."
+                            label="Search..."
                         />
                     </FormGroup>
                     <FormGroup>
@@ -47,6 +116,61 @@ const Navbar = () => {
                             <FontAwesomeIcon icon={faSearch}></FontAwesomeIcon>
                         </Button>
                     </FormGroup>
+                    <SearchResultContainer>
+                        {isShowSearchResults && (
+                            <SearchResult>
+                                {isSearching ? (
+                                    <p
+                                        style={{
+                                            color: "rgb(144, 150, 178)",
+                                            fontFamily: "Roboto",
+                                            marginTop: "16px",
+                                            marginLeft: "10px",
+                                        }}
+                                    >
+                                        Searching...
+                                    </p>
+                                ) : (
+                                    <>
+                                        {products.length ? (
+                                            products.map((product) => (
+                                                <ResultItem key={product.id}>
+                                                    <img
+                                                        alt={product.name}
+                                                        src={
+                                                            product.images[0]
+                                                                .url
+                                                        }
+                                                        className="product-img"
+                                                    />
+                                                    <div className="product-info">
+                                                        <h3 className="product-name">
+                                                            {product.name}
+                                                        </h3>
+                                                        <p className="product-price">
+                                                            $ {product.price}
+                                                        </p>
+                                                    </div>
+                                                </ResultItem>
+                                            ))
+                                        ) : (
+                                            <p
+                                                style={{
+                                                    color: "rgb(144, 150, 178)",
+                                                    fontFamily: "Roboto",
+                                                    marginTop: "16px",
+                                                    marginLeft: "10px",
+                                                }}
+                                            >
+                                                Không có kết quả nào cho
+                                                <strong> keyword</strong>
+                                            </p>
+                                        )}
+                                    </>
+                                )}
+                            </SearchResult>
+                        )}
+                    </SearchResultContainer>
                 </Form>
             </Container>
         </Wrapper>
@@ -111,4 +235,53 @@ const FormGroup = styled.div`
         padding: none;
     }
 `;
+const SearchResultContainer = styled.div`
+    background-color: #fff;
+    position: absolute;
+    max-width: 311px;
+    width: 311px;
+    top: 106px;
+    min-height: 52px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
+        rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+`;
+const SearchResult = styled.ul`
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+`;
+const ResultItem = styled.li`
+    cursor: pointer;
+    display: flex;
+    gap: 10px;
+
+    .product-img {
+        width: 60px;
+        height: 60ox;
+        object-fit: cover;
+    }
+    .product-info {
+        flex: 1;
+    }
+    .product-name {
+        margin-top: 1px;
+        color: black;
+        font-weight: bold;
+        margin-bottom: 8px;
+    }
+    .product-price {
+        color: black;
+        font-weight: 100;
+    }
+    transition: 300ms;
+    &:hover {
+        background-color: #eee;
+    }
+`;
 export default Navbar;
+/**
+ * debounce
+ * - Gọi tác vụ cuối cùng
+ * throttle
+ * - Gọi tác vụ đầu tiên
+ */

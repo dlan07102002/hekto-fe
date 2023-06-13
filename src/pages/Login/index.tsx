@@ -33,7 +33,6 @@ function Login() {
             navigate(redirectPath, { replace: true });
         }
     }, [redirectPath, navigate]);
-    // Form-group thành 1 phần (input label error-mess)
     const { values, errors, handleChange, handleSubmit, touched, handleBlur } =
         useFormik({
             initialValues,

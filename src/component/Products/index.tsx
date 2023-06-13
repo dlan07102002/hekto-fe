@@ -1,20 +1,18 @@
 import styled from "styled-components";
-
+// import { IProduct } from "../../interfaces";
+// interface IProps {
+//     data: IProduct;
+//     props: Object;
+// }
 const Product = ({ ...props }) => {
+    const urlPath = props.data ? props.data.images[0].url : props.src;
+
     return (
         <Wrapper className={props.className}>
-            <ProductImage>
-                <img crossOrigin="anonymous" src={props.src} alt={props.alt} />
+            <ProductImage className="product-image">
+                <img crossOrigin="anonymous" src={urlPath} alt={props.alt} />
             </ProductImage>
-            <ProductDetail>
-                <p className="product-name">Cantilever chair</p>
-                <img
-                    className="product-color"
-                    src="/src/component/assets/images/product-color.png"
-                />
-                <p className="product-code">Code - 151875</p>
-                <p className="product-price">$42.00</p>
-            </ProductDetail>
+            {props.children}
         </Wrapper>
     );
 };
@@ -30,6 +28,10 @@ const ProductImage = styled.div`
     box-sizing: border-box;
     position: relative;
     img {
+        object-fit: cover;
+        max-width: 100%;
+        max-height: 100%;
+        display: block;
         position: absolute;
         position: absolute;
         top: 50%;
@@ -37,31 +39,5 @@ const ProductImage = styled.div`
         transform: translate(-50%, -50%);
     }
 `;
-const ProductDetail = styled.div`
-    .product-name {
-        color: #fb2e86;
-        text-align: center;
-        margin-top: 15px;
-        font-size: 1.8rem;
-    }
 
-    .product-color {
-        display: block;
-        margin: 15px auto 12px auto;
-    }
-    .product-code {
-        margin-top: 12px;
-        color: #151875;
-        font-size: 1.4rem;
-        text-align: center;
-    }
-    .product-price {
-        font-weight: 500;
-        font-family: "Lato";
-        margin-top: 12px;
-        color: #151875;
-        font-size: 1.4rem;
-        text-align: center;
-    }
-`;
 export default Product;

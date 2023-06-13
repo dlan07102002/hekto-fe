@@ -23,7 +23,7 @@ const routes: IRoute[] = [
         path: path.home,
         element: Home,
         layout: DefaultLayout,
-        // isPrivate: true,
+        isPrivate: true,
     },
     {
         path: path.login,

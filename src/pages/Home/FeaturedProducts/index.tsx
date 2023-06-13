@@ -1,31 +1,56 @@
 import styled from "styled-components";
 import Product from "../../../component/Products";
-const FeaturedProduct = () => {
+import ProductList from "../../../component/ProuductList";
+import { IProduct } from "../../../interfaces";
+
+const FeaturedProduct = ({ ...props }) => {
+    const featureProduct = props.data;
+
     return (
         <Wrapper>
             <h2 className="title">Featured Products</h2>
-            <div className="product-list">
-                <Product
-                    src="/src/component/assets/images/img1.png"
+
+            <ProductList>
+                {featureProduct &&
+                    featureProduct.map((data: IProduct) => {
+                        return (
+                            <Product
+                                key={data.id}
+                                data={data}
+                                className="product-custom"
+                            >
+                                <ProductParticular>
+                                    <p className="product-name">{data.name}</p>
+                                    <img
+                                        className="product-color"
+                                        src="/src/component/assets/images/product-color.png"
+                                    />
+                                    <p className="product-code">
+                                        {data.description}
+                                    </p>
+                                    <p className="product-price">
+                                        ${data.price}
+                                    </p>
+                                </ProductParticular>
+                            </Product>
+                        );
+                    })}
+                {/* <Product
+                    src="/src/component/assets/images/featured/img1.png"
                     alt="product"
                     className="product-custom"
-                />
-                <Product
-                    src="/src/component/assets/images/img2.png"
-                    alt="product"
-                    className="product-custom"
-                />
-                <Product
-                    src="/src/component/assets/images/img3.png"
-                    alt="product"
-                    className="product-custom"
-                />
-                <Product
-                    src="/src/component/assets/images/img4.png"
-                    alt="product"
-                    className="product-custom"
-                />
-            </div>
+                >
+                    <ProductParticular>
+                        <p className="product-name">Cantilever chair</p>
+                        <img
+                            className="product-color"
+                            src="/src/component/assets/images/product-color.png"
+                        />
+                        <p className="product-code">Code - 151875</p>
+                        <p className="product-price">$42.00</p>
+                    </ProductParticular>
+                </Product> */}
+            </ProductList>
         </Wrapper>
     );
 };
@@ -38,16 +63,41 @@ const Wrapper = styled.div`
         color: #1a0b5b;
         font-size: 4.2rem;
     }
-    .product-list {
-        margin: auto;
-        width: 1135px;
-        display: flex;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        flex: 1;
-    }
     .product-custom {
         width: calc(25% - 14px);
+        .product-image {
+            img {
+                width: 80%;
+                height: 80%;
+            }
+        }
+    }
+`;
+const ProductParticular = styled.div`
+    .product-name {
+        color: #fb2e86;
+        text-align: center;
+        margin-top: 15px;
+        font-size: 1.8rem;
+    }
+
+    .product-color {
+        display: block;
+        margin: 15px auto 12px auto;
+    }
+    .product-code {
+        margin-top: 12px;
+        color: #151875;
+        font-size: 1.4rem;
+        text-align: center;
+    }
+    .product-price {
+        font-weight: 500;
+        font-family: "Lato";
+        margin-top: 12px;
+        color: #151875;
+        font-size: 1.4rem;
+        text-align: center;
     }
 `;
 export default FeaturedProduct;

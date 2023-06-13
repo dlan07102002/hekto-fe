@@ -60,11 +60,11 @@ const Slider = () => {
                 swipeable
             >
                 <Slider1
-                    src="/src/component/assets/images/slider_img1.png"
+                    src="/src/component/assets/images/slider/slider_img1.png"
                     firstSlide="false"
                 />
-                <Slider1 src="/src/component/assets/images/slider_img2.png" />
-                <Slider1 src="/src/component/assets/images/slider_img3.png" />
+                <Slider1 src="/src/component/assets/images/slider/slider_img2.png" />
+                <Slider1 src="/src/component/assets/images/slider/slider_img3.png" />
             </Carousel>
         </Wrapper>
     );
