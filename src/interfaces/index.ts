@@ -49,3 +49,8 @@ export interface ISearchProductResponse {
     total: number;
     currentPage: number;
 }
+
+export interface IProductDetailResponse {
+    data: IProduct;
+    relatedProducts: IProduct[];
+}

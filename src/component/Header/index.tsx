@@ -66,7 +66,7 @@ const Container = styled.div`
     font-size: 1.6rem;
     display: flex;
     margin: 0 auto;
-    justify-content: space-around;
+    justify-content: space-between;
 
     ul {
         line-height: 44px;

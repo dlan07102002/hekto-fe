@@ -12,6 +12,7 @@ import Button from "../../component/Button";
 import authApi from "../../api/auth";
 import storage from "../../helpers/storage";
 import STORAGE_KEY from "../../constants";
+import Subnav from "../../component/Header/Subnav";
 
 interface IFormValues {
     email: string;
@@ -51,6 +52,7 @@ function Login() {
 
     return (
         <Wrapper>
+            <Subnav path={path.login} name="My account"></Subnav>
             <Container>
                 <Form onSubmit={handleSubmit}>
                     <h2 className="title">Login</h2>
@@ -113,7 +115,6 @@ const Container = styled.div`
         padding-top: 50px;
         color: black;
         font-size: 3.2rem;
-        margin-top: 50px;
     }
     .sub-title {
         margin-top: 7px;

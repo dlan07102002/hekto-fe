@@ -8,9 +8,10 @@ const BranchImage = () => (
 );
 
 const Image = styled.div`
-    widtg: 100%;
+    width: 100%;
     text-align: center;
     margin-top: 35px;
+    margin-bottom: 110px;
     img {
         height: 93px;
         width: 904px;

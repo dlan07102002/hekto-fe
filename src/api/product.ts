@@ -1,6 +1,7 @@
 import axiosClient from ".";
 import {
     ICombineProductResponse,
+    IProductDetailResponse,
     ISearchProductParams,
     ISearchProductResponse,
 } from "../interfaces";
@@ -14,6 +15,9 @@ const productApi = {
         return axiosClient.get("/products", {
             params,
         });
+    },
+    show(id: number): Promise<IProductDetailResponse> {
+        return axiosClient.get(`/products/${id}`);
     },
 };
 

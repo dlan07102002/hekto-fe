@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 import Input from "../../Input";
@@ -22,7 +22,7 @@ const Navbar = () => {
     // - focus && có keyword
     // Ẩn search result khi:
     // - blur
-
+    const navigate = useNavigate();
     const handleChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
         setKeyword(event.target.value.trim());
     };
@@ -31,6 +31,18 @@ const Navbar = () => {
     };
     const handleBlur = () => {
         setIsFocus(false);
+    };
+
+    const handleClickItem = (id: number) => {
+        console.log(id);
+        navigate(`/product/${id}`);
+    };
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        if (keyword) {
+            navigate(path.searchResult + `?q=${keyword}`);
+            setKeyword("");
+        }
     };
 
     useEffect(() => {
@@ -100,7 +112,7 @@ const Navbar = () => {
                         </li>
                     </ul>
                 </div>
-                <Form>
+                <Form onSubmit={handleSubmit}>
                     <FormGroup>
                         <Input
                             value={keyword}
@@ -112,12 +124,13 @@ const Navbar = () => {
                         />
                     </FormGroup>
                     <FormGroup>
-                        <Button className="nav-search-btn">
+                        <Button type="submit" className="nav-search-btn">
                             <FontAwesomeIcon icon={faSearch}></FontAwesomeIcon>
                         </Button>
                     </FormGroup>
-                    <SearchResultContainer>
-                        {isShowSearchResults && (
+
+                    {isShowSearchResults && (
+                        <SearchResultContainer>
                             <SearchResult>
                                 {isSearching ? (
                                     <p
@@ -134,7 +147,14 @@ const Navbar = () => {
                                     <>
                                         {products.length ? (
                                             products.map((product) => (
-                                                <ResultItem key={product.id}>
+                                                <ResultItem
+                                                    key={product.id}
+                                                    onMouseDown={() =>
+                                                        handleClickItem(
+                                                            product.id
+                                                        )
+                                                    }
+                                                >
                                                     <img
                                                         alt={product.name}
                                                         src={
@@ -169,8 +189,8 @@ const Navbar = () => {
                                     </>
                                 )}
                             </SearchResult>
-                        )}
-                    </SearchResultContainer>
+                        </SearchResultContainer>
+                    )}
                 </Form>
             </Container>
         </Wrapper>
@@ -188,7 +208,7 @@ const Container = styled.div`
     height: 81px;
     -webkit-box-align: center;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: space-between;
 
     .logo {
         color: #0d0e43;
@@ -264,9 +284,8 @@ const ResultItem = styled.li`
         flex: 1;
     }
     .product-name {
-        margin-top: 1px;
+        margin-top: 6px;
         color: black;
-        font-weight: bold;
         margin-bottom: 8px;
     }
     .product-price {

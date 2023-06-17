@@ -42,7 +42,7 @@ function App() {
 const Wrapper = styled.div`
     font-size: 1.8rem;
     color: #fff;
-    height: calc(100vh - 160px);
+    height: 100%;
     display: flex;
     background-color: #fff;
 `;
