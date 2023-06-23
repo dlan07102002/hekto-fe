@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import ProductList from "../../../component/ProuductList";
+import ProductList from "../../../component/ProductList";
 import { IProduct } from "../../../interfaces";
 import { useNavigate } from "react-router-dom";
 

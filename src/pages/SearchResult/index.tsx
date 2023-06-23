@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import Subnav from "../../component/Header/Subnav";
 import path from "../../routes/path";
-import ProductList from "../../component/ProuductList";
+import ProductList from "../../component/ProductList";
 import {
     CartIcon,
     HeartIcon,
@@ -14,7 +14,7 @@ import BranchImage from "../../component/BranchIcon";
 import { useState, useEffect } from "react";
 import { IProduct } from "../../interfaces";
 import productApi from "../../api/product";
-function SearchResult() {
+const SearchResult:React.FC = () => {
     const [products, setProduct] = useState<IProduct[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const location = useLocation();

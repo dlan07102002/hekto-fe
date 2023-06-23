@@ -73,6 +73,7 @@ function Login() {
                     </FormGroup>
                     <FormGroup>
                         <Input
+                            autoComplete="current-password"
                             value={values.password}
                             id="password"
                             type="password"

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 interface IProps {
-    className: string;
+    className?: string;
     children: React.ReactNode;
 }
 const ProductList: React.FC<IProps> = ({ className, children }) => {

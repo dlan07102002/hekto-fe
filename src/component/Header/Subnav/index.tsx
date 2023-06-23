@@ -1,7 +1,11 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import path from "../../../routes/path";
-const Subnav = ({ ...props }) => {
+interface IProps {
+    name: string,
+    path: string
+}
+const Subnav:React.FC<IProps> = (props) => {
     return (
         <Wrapper>
             <div className="sub-nav">

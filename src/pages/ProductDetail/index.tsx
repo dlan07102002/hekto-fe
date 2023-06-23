@@ -8,7 +8,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Subnav from "../../component/Header/Subnav";
 import path from "../../routes/path";
-import ProductList from "../../component/ProuductList";
+import ProductList from "../../component/ProductList";
 import { IProduct } from "../../interfaces";
 
 import {

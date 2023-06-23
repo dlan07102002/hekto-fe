@@ -11,7 +11,7 @@ import { IProduct } from "../../../interfaces";
 import productApi from "../../../api/product";
 import useDebouncedEffect from "../../../hooks/useDebounceEffect";
 
-const Navbar = () => {
+const Navbar:React.FC = () => {
     const [isShowSearchResults, setIsShowSearchResults] =
         useState<boolean>(true);
     const [keyword, setKeyword] = useState<string>("");
