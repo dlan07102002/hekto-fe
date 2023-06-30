@@ -1,54 +1,109 @@
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 import ProductList from "../../../component/ProductList";
 import { IProduct } from "../../../interfaces";
-import { useNavigate } from "react-router-dom";
+import { CartIcon, HeartIcon, SearchIcon } from "../../../component/icons";
+import productApi from "../../../api/product";
 interface IProps {
     data: IProduct[];
 }
 const FeaturedProduct: React.FC<IProps> = (data): JSX.Element => {
-    const featureProduct = data.data;
+    const [products, setProducts] = useState<IProduct[]>([]);
+    const featureProduct: IProduct[] = data.data;
+
     const navigate = useNavigate();
 
     const handleClick = (id: number) => {
         navigate(`/product/${id}`);
     };
+
+    useEffect(() => {
+        setProducts(featureProduct);
+    }, [featureProduct]);
+
+    const handleLikeItem = async (id: number, isLiked: boolean) => {
+        if (isLiked) {
+            productApi.unlike(id);
+        } else productApi.like(id);
+        setProducts(
+            products.map((product) => {
+                if (product.id === id) {
+                    return {
+                        ...product,
+                        isLiked: Number(!product.isLiked),
+                    };
+                }
+                return product;
+            })
+        );
+    };
+
     return (
         <Wrapper>
             <h2 className="title">Featured Products</h2>
 
             <ProductList>
-                {featureProduct &&
-                    featureProduct.map((product: IProduct) => {
+                {products &&
+                    products.map((product: IProduct) => {
                         const id = product.id;
                         return (
-                            <Product
-                                onClick={() => handleClick(id)}
-                                key={id}
-                                className="product-custom"
-                            >
-                                <ProductImage className="product-image">
-                                    <img
-                                        crossOrigin="anonymous"
-                                        src={product.images[0].url}
-                                        alt={product.name}
-                                    />
-                                </ProductImage>
-                                <ProductParticular>
-                                    <p className="product-name">
-                                        {product.name}
-                                    </p>
-                                    <img
-                                        className="product-color"
-                                        src="/src/component/assets/images/product-color.png"
-                                    />
-                                    <p className="product-code">
-                                        {product.description}
-                                    </p>
-                                    <p className="product-price">
-                                        ${product.price}
-                                    </p>
-                                </ProductParticular>
+                            <Product key={id} className="product-custom">
+                                <ProductOption className="product-hover">
+                                    <ul className="product-options">
+                                        <li className="product-options-icon">
+                                            <CartIcon />
+                                        </li>
+                                        <li
+                                            onClick={() =>
+                                                handleLikeItem(
+                                                    product.id,
+                                                    !!product.isLiked
+                                                )
+                                            }
+                                            className="product-options-icon"
+                                        >
+                                            <HeartIcon
+                                                className={
+                                                    product.isLiked
+                                                        ? "active"
+                                                        : ""
+                                                }
+                                            />
+                                        </li>
+                                        <li className="product-options-icon">
+                                            <SearchIcon />
+                                        </li>
+                                    </ul>
+                                </ProductOption>
+                                <div onClick={() => handleClick(id)}>
+                                    <div className="view-detail">
+                                        <span>View Details</span>
+                                    </div>
+                                    <ProductImage className="product-image">
+                                        <img
+                                            crossOrigin="anonymous"
+                                            src={product.images[0].url}
+                                            alt={product.name}
+                                        />
+                                    </ProductImage>
+                                    <ProductDescription>
+                                        <p className="product-name">
+                                            {product.name}
+                                        </p>
+                                        <img
+                                            className="product-color"
+                                            src="/src/component/assets/images/product-color.png"
+                                        />
+                                        <p className="product-code">
+                                            {product.description}
+                                        </p>
+                                        <p className="product-price">
+                                            ${product.price}
+                                        </p>
+                                    </ProductDescription>
+                                </div>
                             </Product>
                         );
                     })}
@@ -79,6 +134,7 @@ const Product = styled.div`
     box-shadow: rgba(0, 0, 0, 0.2) 2px 4px 10px 0px;
     height: 361px;
     margin: 0 7px;
+    position: relative;
     &:hover {
         cursor: pointer;
         background-color: #2f1ac4;
@@ -86,6 +142,76 @@ const Product = styled.div`
         .product-code,
         .product-price {
             color: #fff;
+        }
+        .product-hover {
+            display: block;
+        }
+        .view-detail {
+            display: block;
+        }
+    }
+    .view-detail {
+        display: none;
+        position: absolute;
+        z-index: 2;
+        margin-top: 189px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #08d15f;
+        width: 94px;
+        height: 29px;
+        font-size: 1.2rem;
+        text-align: center;
+        line-height: 29px;
+        border-radius: 2px;
+    }
+`;
+const ProductOption = styled.div`
+    display: none;
+    position: absolute;
+    background-color: transparent;
+    z-index: 2;
+    .product-options {
+        display: flex;
+        align-items: center;
+    }
+    .product-options-icon {
+        width: 30px;
+        height: 30px;
+        margin-left: 16px;
+        margin-top: 18px;
+        position: relative;
+        svg {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            path {
+                fill: #1db4e7;
+                /* linear-gradient(#1389FF, #1DB4E7); */
+            }
+        }
+        .active {
+            path {
+                fill: #fb2e86;
+            }
+        }
+    }
+    .product-options-icon:hover {
+        background-color: #eeeffb;
+
+        border-radius: 30px;
+        box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.05);
+
+        svg {
+            path {
+                fill: #2f1ac4;
+            }
+        }
+        .active {
+            path {
+                fill: #fb2e86;
+            }
         }
     }
 `;
@@ -106,7 +232,7 @@ const ProductImage = styled.div`
         transform: translate(-50%, -50%);
     }
 `;
-const ProductParticular = styled.div`
+const ProductDescription = styled.div`
     .product-name {
         color: #fb2e86;
         text-align: center;

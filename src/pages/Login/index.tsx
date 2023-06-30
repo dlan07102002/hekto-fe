@@ -19,7 +19,7 @@ interface IFormValues {
     password: string;
 }
 
-function Login() {
+const Login: React.FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const params = new URLSearchParams(location.search);
@@ -98,7 +98,7 @@ function Login() {
             <BranchImage />
         </Wrapper>
     );
-}
+};
 const Wrapper = styled.div`
     p {
         font-family: "IBM Plex Sans", sans-serif;

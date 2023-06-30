@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import { Fragment } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -7,6 +7,8 @@ import "react-toastify/dist/ReactToastify.css";
 import routes from "./routes";
 import AuthMiddleware from "./component/AuthMiddleWare";
 function App() {
+    // const location = useLocation;
+
     return (
         <Wrapper>
             <Routes>

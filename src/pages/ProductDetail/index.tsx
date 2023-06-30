@@ -1,32 +1,27 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import {
     faInstagram,
     faFacebook,
     faTwitter,
 } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import Subnav from "../../component/Header/Subnav";
 import path from "../../routes/path";
 import ProductList from "../../component/ProductList";
 import { IProduct } from "../../interfaces";
-
-import {
-    ArrowRight,
-    CartIcon,
-    HeartIcon,
-    SearchIcon,
-    StarIcon,
-} from "../../component/icons";
+import { ArrowRight, HeartIcon, StarIcon } from "../../component/icons";
 import BranchImage from "../../component/BranchIcon";
 import productApi from "../../api/product";
-import { useParams } from "react-router-dom";
+
 const ProductDetail: React.FC = () => {
     const [product, setProduct] = useState<IProduct | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [relatedProducts, setRelatedProducts] = useState<IProduct[]>([]);
     const { id } = useParams();
-    console.log(id);
+
     useEffect(() => {
         if (id) {
             setIsLoading(true);
@@ -39,9 +34,20 @@ const ProductDetail: React.FC = () => {
                 .finally(() => setIsLoading(false));
         }
     }, [id]);
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    }, []);
+
+    const handleLikeItem = (id: number, isLiked: boolean) => {
+        if (isLiked) {
+            productApi.unlike(id);
+        } else {
+            productApi.like(id);
+        }
+        if (product) {
+            setProduct(() => {
+                return { ...product, isLiked: Number(!isLiked) };
+            });
+        }
+    };
+
     return (
         <Wrapper>
             <Subnav path={path.productDetail} name="Product Details" />
@@ -93,7 +99,21 @@ const ProductDetail: React.FC = () => {
                                 </p>
                                 <div className="product-actions">
                                     <span>Add to Cart</span>
-                                    <HeartIcon />
+                                    <button
+                                        onClick={() =>
+                                            handleLikeItem(
+                                                product.id,
+                                                !!product.isLiked
+                                            )
+                                        }
+                                        className="icon-btn"
+                                    >
+                                        <HeartIcon
+                                            className={
+                                                product.isLiked ? "active" : ""
+                                            }
+                                        />
+                                    </button>
                                 </div>
                                 <p className="product-categories">
                                     Categories:{" "}
@@ -328,9 +348,19 @@ const ProductParticular = styled.div`
             }
             margin-right: 30px;
         }
+        .active {
+            path {
+                fill: #fb2e86;
+            }
+        }
         svg:hover {
             opacity: 0.8;
             cursor: pointer;
+        }
+        .icon-btn {
+            background-color: transparent;
+            outline: none;
+            border: none;
         }
     }
     .product-categories {

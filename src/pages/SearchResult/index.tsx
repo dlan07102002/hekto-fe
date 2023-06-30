@@ -14,16 +14,18 @@ import BranchImage from "../../component/BranchIcon";
 import { useState, useEffect } from "react";
 import { IProduct } from "../../interfaces";
 import productApi from "../../api/product";
-const SearchResult:React.FC = () => {
+
+const SearchResult: React.FC = () => {
     const [products, setProduct] = useState<IProduct[]>([]);
     const [isLoading, setIsLoading] = useState(false);
+
     const location = useLocation();
     const navigate = useNavigate();
     const productColor = ["#DE9034", "#E60584", "#5E37FF"];
-    console.log(location.search);
+
     const query = new URLSearchParams(location.search);
     const keyword = query.get("q");
-    console.log(products);
+
     useEffect(() => {
         if (keyword) {
             setIsLoading(true);
@@ -34,14 +36,35 @@ const SearchResult:React.FC = () => {
                     order: "createdAt:desc,id:desc",
                     search: keyword,
                 })
-                .then((res) => setProduct(res.data))
+                .then((res) => {
+                    if (res.data) {
+                        setProduct(res.data);
+                    }
+                })
                 .finally(() => {
                     setIsLoading(false);
                 });
         }
     }, [keyword]);
     const handleClickItem = (id: number) => {
-        navigate(`/product/${id}`);
+        // navigate(`/product/${id}`);
+    };
+
+    const handleLikeItem = async (isLiked: boolean, id: number) => {
+        if (isLiked) {
+            productApi.unlike(id);
+        } else productApi.like(id);
+        setProduct(
+            products.map((product) => {
+                if (product.id === id) {
+                    return {
+                        ...product,
+                        isLiked: Number(!product.isLiked),
+                    };
+                }
+                return product;
+            })
+        );
     };
 
     return (
@@ -55,6 +78,7 @@ const SearchResult:React.FC = () => {
                         {products.map((product) => {
                             return (
                                 <Product
+                                    key={product.id}
                                     onClick={() => handleClickItem(product.id)}
                                 >
                                     <ProductImage>
@@ -64,7 +88,7 @@ const SearchResult:React.FC = () => {
                                             alt="product"
                                         />
                                     </ProductImage>
-                                    <ProductParticular>
+                                    <ProductDescription>
                                         <div className="product-title">
                                             <span className="product-name">
                                                 {product.name}
@@ -120,11 +144,31 @@ const SearchResult:React.FC = () => {
                                             {product.description}
                                         </p>
                                         <div className="product-actions">
-                                            <CartIcon />
-                                            <HeartIcon />
-                                            <SearchIcon />
+                                            <button className="icon-btn">
+                                                <CartIcon />
+                                            </button>
+                                            <button
+                                                onClick={() =>
+                                                    handleLikeItem(
+                                                        !!product.isLiked,
+                                                        product.id
+                                                    )
+                                                }
+                                                className="icon-btn"
+                                            >
+                                                <HeartIcon
+                                                    className={
+                                                        product.isLiked
+                                                            ? "active"
+                                                            : ""
+                                                    }
+                                                />
+                                            </button>
+                                            <button className="icon-btn">
+                                                <SearchIcon />
+                                            </button>
                                         </div>
-                                    </ProductParticular>
+                                    </ProductDescription>
                                 </Product>
                             );
                         })}
@@ -136,7 +180,7 @@ const SearchResult:React.FC = () => {
             <BranchImage />
         </Wrapper>
     );
-}
+};
 const Wrapper = styled.div``;
 
 const Container = styled.div`
@@ -167,7 +211,7 @@ const ProductImage = styled.div`
         display: block;
     }
 `;
-const ProductParticular = styled.div`
+const ProductDescription = styled.div`
     width: 590px;
     height: 236px;
     .product-title {
@@ -225,11 +269,22 @@ const ProductParticular = styled.div`
             }
             margin-right: 30px;
         }
+        .active {
+            path {
+                fill: #fb2e86;
+            }
+        }
         svg:hover {
             opacity: 0.8;
             cursor: pointer;
         }
+        .icon-btn {
+            background-color: transparent;
+            outline: none;
+            border: none;
+        }
     }
 `;
+
 export default SearchResult;
 //coding conventions

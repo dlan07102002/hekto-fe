@@ -1,4 +1,5 @@
 import styled from "styled-components";
+
 import Button from "../../../component/Button";
 const Slider1 = ({ ...props }) => {
     const lampDisplay = props.firstSlide ? "block" : "none";
