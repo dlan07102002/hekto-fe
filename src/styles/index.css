@@ -5,3 +5,16 @@ html {
     font-family: "IBM Plex Sans", sans-serif;
     font-family: "Josefin Sans", sans-serif;
 }
+
+.flex {
+    display: flex;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

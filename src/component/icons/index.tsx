@@ -80,8 +80,9 @@ export const HeartIcon: React.FC<IProps> = (props) => (
         />
     </svg>
 );
-export const CartIcon = () => (
+export const CartIcon: React.FC<IProps> = (props) =>(
     <svg
+        className={props.className}
         xmlns="http://www.w3.org/2000/svg"
         width="24"
         height="24"

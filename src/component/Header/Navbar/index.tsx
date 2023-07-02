@@ -11,7 +11,7 @@ import { IProduct } from "../../../interfaces";
 import productApi from "../../../api/product";
 import useDebouncedEffect from "../../../hooks/useDebounceEffect";
 
-const Navbar:React.FC = () => {
+const Navbar: React.FC = () => {
     const [isShowSearchResults, setIsShowSearchResults] =
         useState<boolean>(true);
     const [keyword, setKeyword] = useState<string>("");
@@ -26,9 +26,11 @@ const Navbar:React.FC = () => {
     const handleChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
         setKeyword(event.target.value.trim());
     };
+
     const handleFocus = () => {
         setIsFocus(true);
     };
+
     const handleBlur = () => {
         setIsFocus(false);
     };
@@ -37,10 +39,15 @@ const Navbar:React.FC = () => {
         console.log(id);
         navigate(`/product/${id}`);
     };
+
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (keyword) {
-            navigate(path.searchResult + `?q=${keyword}`);
+            if (JSON.stringify(products) === "[]") {
+                navigate(path.notFound);
+            } else {
+                navigate(path.searchResult + `?q=${keyword}`);
+            }
             setKeyword("");
         }
     };
@@ -52,6 +59,7 @@ const Navbar:React.FC = () => {
             setIsShowSearchResults(false);
         }
     }, [isFocus, keyword]);
+
     useEffect(() => {
         if (keyword) {
             setIsSearching(true);
@@ -62,6 +70,8 @@ const Navbar:React.FC = () => {
         }
         setIsSearching(!!keyword);
     }, [keyword]);
+
+    //Avoid memory leaked by re-render
     useDebouncedEffect(
         () => {
             if (keyword) {

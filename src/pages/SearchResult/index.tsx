@@ -47,10 +47,15 @@ const SearchResult: React.FC = () => {
         }
     }, [keyword]);
     const handleClickItem = (id: number) => {
-        // navigate(`/product/${id}`);
+        navigate(`/product/${id}`);
     };
 
-    const handleLikeItem = async (isLiked: boolean, id: number) => {
+    const handleLikeItem = async (
+        e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+        isLiked: boolean,
+        id: number
+    ) => {
+        e.stopPropagation();
         if (isLiked) {
             productApi.unlike(id);
         } else productApi.like(id);
@@ -148,8 +153,9 @@ const SearchResult: React.FC = () => {
                                                 <CartIcon />
                                             </button>
                                             <button
-                                                onClick={() =>
+                                                onClick={(e) =>
                                                     handleLikeItem(
+                                                        e,
                                                         !!product.isLiked,
                                                         product.id
                                                     )
@@ -260,6 +266,7 @@ const ProductDescription = styled.div`
     }
 
     .product-actions {
+        position: relative;
         display: flex;
         align-items: center;
         margin-top: 20px;

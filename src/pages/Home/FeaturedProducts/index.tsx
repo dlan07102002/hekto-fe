@@ -219,9 +219,9 @@ const ProductImage = styled.div`
     margin: 0 auto;
     height: 236px;
     background-color: #f6f7fb;
-    box-sizing: border-box;
     position: relative;
     img {
+        box-sizing: border-box;
         object-fit: cover;
         max-width: 100%;
         max-height: 100%;
