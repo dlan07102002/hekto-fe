@@ -1,9 +1,10 @@
 import styled from "styled-components";
-import Subnav from "../../component/Header/Subnav";
-import path from "../../routes/path";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
+
+import Subnav from "../../component/Header/Subnav";
+import path from "../../routes/path";
 
 const Cart: React.FC = () => {
     const [quantity, setQuantity] = useState<number>(1);
@@ -105,7 +106,9 @@ const Cart: React.FC = () => {
         </Wrapper>
     );
 };
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+    margin-bottom: 221px;
+`;
 const Container = styled.div`
     margin-top: 131px;
     width: 1170px;
