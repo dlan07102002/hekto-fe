@@ -234,7 +234,7 @@ const CartTotals = styled.div`
         justify-content: space-between;
         border-bottom: 2px solid #e8e6f1;
         padding-bottom: 14px;
-        margin-top: 34px;
+        padding-top: 34px;
         max-width: 310px;
         span {
             color: #15245e;

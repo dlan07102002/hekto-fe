@@ -90,7 +90,7 @@ const Wrapper = styled.div`
     background-color: #7e33e0;
     width: 100%;
     position: fixed;
-    z-index: 10;
+    z-index: 9999;
     box-shadow: 0px 0px 25px 10px #f8f8fb;
 `;
 const Container = styled.div`
@@ -129,7 +129,6 @@ const Contact = styled.div`
 `;
 const CustomInfo = styled.div`
     position: relative;
-
     ul {
         display: flex;
         align-items: center;

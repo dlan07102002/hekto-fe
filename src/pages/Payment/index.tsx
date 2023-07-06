@@ -28,15 +28,15 @@ const Payment: React.FC = () => {
                                 Shipping address
                             </h3>
                             <div className="shipping-address-form">
-                                <div className="name-field">
+                                <div className="flex">
                                     <input
                                         type="text"
-                                        className="payment-input"
+                                        className="payment-input name-field "
                                         placeholder="First name"
                                     />
                                     <input
                                         type="text"
-                                        className="payment-input"
+                                        className="payment-input name-field"
                                         placeholder="Last name"
                                     />
                                 </div>
@@ -65,26 +65,131 @@ const Payment: React.FC = () => {
                             </div>
                         </div>
                     </PaymentForm>
-                    <CartTotals>
-                        <div className="total-pay">
-                            <h3 className="title">Subtotals:</h3>
-                            <span>$219.00</span>
-                        </div>
-                        <div className="total-pay">
-                            <h3 className="title">Totals:</h3>
-                            <span>$325.00</span>
-                        </div>
-                        <p className="checkout-note">
-                            <FontAwesomeIcon
-                                icon={faCircleCheck}
-                                className="check-icon"
-                            ></FontAwesomeIcon>
-                            Shipping & taxes calculated at checkout
-                        </p>
-                        <button className="checkout-btn">
-                            Proceed to Checkout
-                        </button>
-                    </CartTotals>
+
+                    <PaymentList>
+                        <Product>
+                            <ProductImage className="product-image">
+                                <img
+                                    crossOrigin="anonymous"
+                                    src="/src/component/assets/images/featured/img1.png"
+                                    alt={"product.name"}
+                                />
+                            </ProductImage>
+                            <ProductDescription>
+                                <p className="product-name">
+                                    Ut diam consequat
+                                </p>
+                                <p className="product-color">Color: Brown</p>
+                                <p className="product-size">Size: XL</p>
+                            </ProductDescription>
+                            <div className="product-price">$32.00</div>
+                        </Product>
+                        <Product>
+                            <ProductImage className="product-image">
+                                <img
+                                    crossOrigin="anonymous"
+                                    src="/src/component/assets/images/featured/img1.png"
+                                    alt={"product.name"}
+                                />
+                            </ProductImage>
+                            <ProductDescription>
+                                <p className="product-name">
+                                    Ut diam consequat
+                                </p>
+                                <p className="product-color">Color: Brown</p>
+                                <p className="product-size">Size: XL</p>
+                            </ProductDescription>
+                            <div className="product-price">$32.00</div>
+                        </Product>
+                        <Product>
+                            <ProductImage className="product-image">
+                                <img
+                                    crossOrigin="anonymous"
+                                    src="/src/component/assets/images/featured/img1.png"
+                                    alt={"product.name"}
+                                />
+                            </ProductImage>
+                            <ProductDescription>
+                                <p className="product-name">
+                                    Ut diam consequat
+                                </p>
+                                <p className="product-color">Color: Brown</p>
+                                <p className="product-size">Size: XL</p>
+                            </ProductDescription>
+                            <div className="product-price">$32.00</div>
+                        </Product>
+                        <Product>
+                            <ProductImage className="product-image">
+                                <img
+                                    crossOrigin="anonymous"
+                                    src="/src/component/assets/images/featured/img1.png"
+                                    alt={"product.name"}
+                                />
+                            </ProductImage>
+                            <ProductDescription>
+                                <p className="product-name">
+                                    Ut diam consequat
+                                </p>
+                                <p className="product-color">Color: Brown</p>
+                                <p className="product-size">Size: XL</p>
+                            </ProductDescription>
+                            <div className="product-price">$32.00</div>
+                        </Product>
+                        <Product>
+                            <ProductImage className="product-image">
+                                <img
+                                    crossOrigin="anonymous"
+                                    src="/src/component/assets/images/featured/img1.png"
+                                    alt={"product.name"}
+                                />
+                            </ProductImage>
+                            <ProductDescription>
+                                <p className="product-name">
+                                    Ut diam consequat
+                                </p>
+                                <p className="product-color">Color: Brown</p>
+                                <p className="product-size">Size: XL</p>
+                            </ProductDescription>
+                            <div className="product-price">$32.00</div>
+                        </Product>
+                        <Product>
+                            <ProductImage className="product-image">
+                                <img
+                                    crossOrigin="anonymous"
+                                    src="/src/component/assets/images/featured/img1.png"
+                                    alt={"product.name"}
+                                />
+                            </ProductImage>
+                            <ProductDescription>
+                                <p className="product-name">
+                                    Ut diam consequat
+                                </p>
+                                <p className="product-color">Color: Brown</p>
+                                <p className="product-size">Size: XL</p>
+                            </ProductDescription>
+                            <div className="product-price">$32.00</div>
+                        </Product>
+                        <CartTotals>
+                            <div className="total-pay">
+                                <h3 className="title">Subtotals:</h3>
+                                <span>$219.00</span>
+                            </div>
+                            <div className="total-pay">
+                                <h3 className="title">Totals:</h3>
+                                <span>$325.00</span>
+                            </div>
+                            <p className="checkout-note">
+                                <FontAwesomeIcon
+                                    icon={faCircleCheck}
+                                    className="check-icon"
+                                ></FontAwesomeIcon>
+                                Shipping & taxes calculated at checkout
+                            </p>
+                            <button className="checkout-btn">
+                                Proceed to Checkout
+                            </button>
+                        </CartTotals>
+                    </PaymentList>
                 </div>
             </Container>
         </Wrapper>
@@ -103,9 +208,30 @@ const Container = styled.div`
 
 const PaymentForm = styled.div`
     width: 770px;
+    height: 604px;
     border-radius: 3px;
     background-color: #f8f8fd;
     padding: 46px 41px 0 31px;
+
+    .payment-input {
+        display: block;
+        width: 100%;
+        background-color: transparent;
+        border: none;
+        outline: none;
+        border-bottom: 2px solid #bfc6e0;
+        padding-bottom: 14px;
+        margin-bottom: 39.45px;
+        font-size: 1.4rem;
+        font-family: Lato;
+        font-style: normal;
+        font-weight: 500;
+        color: #969696;
+
+        ::placeholder {
+            color: #c1c8e1;
+        }
+    }
 
     .contact-title,
     .shipping-address-title {
@@ -117,17 +243,78 @@ const PaymentForm = styled.div`
         line-height: normal;
     }
 
-    .payment-input {
-        background-color: transparent;
-        color: #c1c8e1;
-        border: none;
-        outline: none;
-        border-bottom: 2px solid #bfc6e0;
-        padding-bottom: 14px;
+    .contact-info {
+        margin-bottom: 69.61px;
+    }
+
+    .contact-title {
+        margin-bottom: 27px;
+    }
+
+    .shipping-address-title {
+        margin-bottom: 31.5px;
+    }
+
+    .name-field:first-child {
+        margin-right: 15px;
+    }
+
+    .name-field:last-child {
+        margin-left: 15px;
+    }
+
+    .shipping-address-form {
+        margin-bottom: 60px;
+    }
+`;
+
+const Product = styled.div`
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #e1e1e4;
+    margin-bottom: 14px;
+`;
+
+const ProductImage = styled.div`
+    img {
+        width: 83px;
+        height: 87px;
+    }
+`;
+
+const ProductDescription = styled.div`
+    display: flex;
+    flex-direction: column;
+    .product-color,
+    .product-size,
+    .product-name {
+        margin: 8px 0;
+    }
+    .product-color,
+    .product-size {
+        color: #a1a8c1;
+        font-size: 1.2rem;
+    }
+
+    .product-name {
+        color: #000;
         font-size: 1.4rem;
-        font-family: Lato;
-        font-style: normal;
-        font-weight: 500;
+    }
+
+    .product-color {
+    }
+    .product-size {
+    }
+`;
+
+const PaymentList = styled.div`
+    margin-left: 30px;
+
+    .product-price {
+        color: rgb(21, 36, 94);
+        font-size: 1.4rem;
+        flex: 1;
+        text-align: end;
     }
 `;
 
@@ -137,7 +324,6 @@ const CartTotals = styled.div`
     box-sizing: border-box;
     border-radius: 3px;
     background-color: #f4f4fc;
-    margin-left: 30px;
     .total-pay,
     .checkout-btn,
     .checkout-note {
@@ -152,7 +338,7 @@ const CartTotals = styled.div`
         justify-content: space-between;
         border-bottom: 2px solid #e8e6f1;
         padding-bottom: 14px;
-        margin-top: 34px;
+        padding-top: 34px;
         max-width: 310px;
         span {
             color: #15245e;
